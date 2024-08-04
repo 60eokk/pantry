@@ -1,12 +1,33 @@
+'use client'
 import { Box, Stack, Typography } from "@mui/material";
+import { firestore } from "@/firebase";
+import { useEffect, useState } from "react";
+import { collection, query, getDocs } from "firebase/firestore";
 
-const item = [
-  'tomato',
-  'tomate',
-  'tometo',
-]
+// const item = [
+//   'tomato',
+//   'tomate',
+//   'tometo',
+// ]
 
 export default function Home() {
+  const [pantry, setPantry] = useState([])
+  useEffect(() => {
+    const updatePantry = async () => {
+      const snapshot = query(collection(firestore, 'pantry'));
+      const docs = await getDocs(snapshot);
+      const pantryList = []
+      docs.forEach((doc) => {
+        // console.log(doc.id, doc.data());
+        pantryList.push(doc.id)
+      });
+      console.log(pantryList)
+      setPantry(pantryList)
+    };
+
+    updatePantry();
+  }, []);
+
   return (
     <Box
       width = '100vw'
@@ -21,7 +42,7 @@ export default function Home() {
     height = '300px'
     spacing = {2} 
     overflow = {'auto'}>
-    {item.map((i) => (
+    {pantry.map((i) => (
       <Box
         key={i}
         width="100%"
