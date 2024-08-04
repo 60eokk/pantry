@@ -61,7 +61,7 @@ export default function Home() {
   };
 
   // Filter pantry items based on the search term
-  const filteredPantry = pantry.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
+  const filteredPantry = pantry.filter(item => item.name && item.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
   return (
     <Box
